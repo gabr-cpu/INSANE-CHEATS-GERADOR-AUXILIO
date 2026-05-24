@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>INSANE SENSI</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:url('https://media.discordapp.net/attachments/1507929468348403712/1508189988326735942/file_00000000c8ac720ea8f704feed2457c0.png?ex=6a14a2e2&is=6a135162&hm=824e0a5afce120deac432a25e8c584bc7b9bd4e94a9a93dc181b302b180e3964&=&format=webp&quality=lossless&width=788&height=561') center/cover no-repeat;
+position:relative;
+color:white;
+}
+
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.65);
+backdrop-filter:blur(5px);
+}
+
+/* LOGIN */
+
+#login{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:2;
+padding:20px;
+}
+
+.loginBox{
+width:430px;
+background:rgba(10,10,10,0.92);
+border:1px solid rgba(255,0,0,0.15);
+border-radius:30px;
+padding:35px;
+backdrop-filter:blur(10px);
+box-shadow:
+0 0 40px rgba(255,0,0,0.15),
+0 0 80px rgba(255,0,0,0.05);
+}
+
+.logo{
+font-size:68px;
+font-weight:900;
+font-style:italic;
+text-align:center;
+color:#ff0000;
+text-shadow:0 0 18px red;
+letter-spacing:2px;
+}
+
+.sub{
+text-align:center;
+color:#777;
+margin-top:5px;
+margin-bottom:35px;
+font-size:14px;
+}
+
+.input{
+width:100%;
+padding:18px;
+background:#121212;
+border:none;
+outline:none;
+border-radius:18px;
+color:white;
+font-size:15px;
+margin-bottom:15px;
+transition:0.3s;
+}
+
+.input:focus{
+box-shadow:0 0 15px rgba(255,0,0,0.25);
+}
+
+.enter{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+background:linear-gradient(45deg,#ff0000,#ff3b3b);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.enter:hover{
+transform:scale(1.02);
+box-shadow:0 0 20px rgba(255,0,0,0.25);
+}
+
+/* PAINEL */
+
+#painel{
+display:none;
+position:absolute;
+width:100%;
+height:100%;
+z-index:2;
+overflow:auto;
+padding:35px;
+}
+
+.top{
+margin-bottom:30px;
+}
+
+.top h1{
+font-size:65px;
+font-style:italic;
+font-weight:900;
+}
+
+.top span{
+color:#ff0000;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 420px;
+gap:25px;
+}
+
+/* CARD */
+
+.card{
+background:rgba(15,15,15,0.92);
+border-radius:30px;
+padding:30px;
+border:1px solid rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+}
+
+.card h2{
+font-size:35px;
+margin-bottom:25px;
+font-style:italic;
+}
+
+.label{
+font-size:13px;
+color:#777;
+margin-bottom:10px;
+}
+
+.generate{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+background:linear-gradient(45deg,#ff0000,#ff3b3b);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+margin-top:5px;
+}
+
+.generate:hover{
+transform:scale(1.02);
+}
+
+.resultado{
+margin-top:25px;
+background:#101010;
+padding:25px;
+border-radius:22px;
+line-height:42px;
+font-size:19px;
+border:1px solid rgba(255,255,255,0.03);
+}
+
+.resultado span{
+color:#ff3333;
+font-weight:bold;
+}
+
+/* AUXILIO */
+
+.option{
+background:#151515;
+padding:18px;
+border-radius:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+transition:0.3s;
+}
+
+.option:hover{
+transform:translateX(3px);
+background:#1b1b1b;
+}
+
+.option h4{
+font-size:18px;
+margin-bottom:5px;
+}
+
+.option p{
+font-size:13px;
+color:#777;
+}
+
+/* SWITCH */
+
+.switch{
+position:relative;
+display:inline-block;
+width:55px;
+height:28px;
+}
+
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+.slider{
+position:absolute;
+cursor:pointer;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#333;
+transition:.4s;
+border-radius:34px;
+}
+
+.slider:before{
+position:absolute;
+content:"";
+height:20px;
+width:20px;
+left:4px;
+bottom:4px;
+background:white;
+transition:.4s;
+border-radius:50%;
+}
+
+input:checked + .slider{
+background:#ff0000;
+}
+
+input:checked + .slider:before{
+transform:translateX(26px);
+}
+
+/* BOTAO FF */
+
+.ff{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+background:#00aa55;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+transition:0.3s;
+}
+
+.ff:hover{
+transform:scale(1.02);
+}
+
+.status{
+margin-top:15px;
+padding:14px;
+border-radius:15px;
+background:#002f16;
+color:#00ff88;
+font-weight:bold;
+text-align:center;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.top h1{
+font-size:42px;
+}
+
+.card{
+padding:20px;
+}
+
+.logo{
+font-size:50px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="login">
+
+<div class="loginBox">
+
+<div class="logo">
+INSANE
+</div>
+
+<div class="sub">
+GERADOR PREMIUM
+</div>
+
+<input
+type="text"
+id="keyInput"
+class="input"
+placeholder="Digite sua key"
+/>
+
+<button
+class="enter"
+onclick="entrar()">
+
+ENTRAR
+
+</button>
+
+</div>
+
+</div>
+
+<!-- PAINEL -->
+
+<div id="painel">
+
+<div class="top">
+
+<h1>
+INSANE <span>SENSI</span>
+</h1>
+
+</div>
+
+<div class="grid">
+
+<!-- GERADOR -->
+
+<div class="card">
+
+<h2>GERADOR DE SENSI</h2>
+
+<div class="label">
+DIGITE O MODELO DO CELULAR
+</div>
+
+<input
+type="text"
+id="modelo"
+class="input"
+placeholder="Ex: Samsung A15"
+/>
+
+<button
+class="generate"
+onclick="gerar()">
+
+GERAR SENSI
+
+</button>
+
+<div class="resultado" id="resultado">
+
+<span>GERAL:</span> -
+<br>
+
+<span>RED DOT:</span> -
+<br>
+
+<span>2X:</span> -
+<br>
+
+<span>AWM:</span> -
+<br>
+
+<span>DPI:</span> -
+
+</div>
+
+</div>
+
+<!-- AUXILIO -->
+
+<div class="card">
+
+<h2>AUXÍLIO</h2>
+
+<div class="option">
+
+<div>
+
+<h4>AIM LOCK</h4>
+
+<p>Melhora precisão da mira</p>
+
+</div>
+
+<label class="switch">
+<input type="checkbox">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="option">
+
+<div>
+
+<h4>DRAG HEAD</h4>
+
+<p>Arrasto otimizado</p>
+
+</div>
+
+<label class="switch">
+<input type="checkbox">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="option">
+
+<div>
+
+<h4>ESTABILIZADOR</h4>
+
+<p>Reduz tremida da mira</p>
+
+</div>
+
+<label class="switch">
+<input type="checkbox">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="option">
+
+<div>
+
+<h4>BOOST FPS</h4>
+
+<p>Melhora resposta do jogo</p>
+
+</div>
+
+<label class="switch">
+<input type="checkbox">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="option">
+
+<div>
+
+<h4>ULTRA CAPA</h4>
+
+<p>Resposta rápida no puxão</p>
+
+</div>
+
+<label class="switch">
+<input type="checkbox">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<button
+class="ff"
+onclick="abrirFF()">
+
+ENTRAR NO FREE FIRE
+
+</button>
+
+<div class="status">
+SISTEMA ONLINE
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+"https://oalyokjoixouwywxfmtz.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_kg2nublKacXnCFQWQaA0QA_jv1C_-Hp";
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+/* LOGIN */
+
+async function entrar(){
+
+let key =
+document.getElementById("keyInput")
+.value
+.trim();
+
+if(key == ""){
+
+alert("Digite sua key");
+
+return;
+
+}
+
+const { data } =
+await supabaseClient
+.from("keys")
+.select("*")
+.eq("key", key);
+
+if(data.length == 0){
+
+alert("KEY INVÁLIDA");
+
+return;
+
+}
+
+let item = data[0];
+
+if(item.deleted == true){
+
+alert("KEY DELETADA");
+
+return;
+
+}
+
+if(item.paused == true){
+
+alert("KEY PAUSADA");
+
+return;
+
+}
+
+document.getElementById("login")
+.style.display = "none";
+
+document.getElementById("painel")
+.style.display = "block";
+
+}
+
+/* RANDOM */
+
+function random(min,max){
+
+return Math.floor(
+Math.random() * (max - min + 1)
+) + min;
+
+}
+
+/* GERAR */
+
+function gerar(){
+
+let modelo =
+document.getElementById("modelo")
+.value
+.toLowerCase()
+.trim();
+
+let validos = [
+
+"samsung a15",
+"samsung s23",
+"samsung s24",
+"iphone 11",
+"iphone 12",
+"iphone 13",
+"iphone 14",
+"iphone 15",
+"redmi note 12",
+"redmi note 13",
+"moto g84",
+"poco x5",
+"poco x6"
+
+];
+
+if(!validos.includes(modelo)){
+
+alert("CELULAR NÃO COMPATÍVEL");
+
+return;
+
+}
+
+document.getElementById("resultado")
+.innerHTML = `
+
+<span>GERAL:</span> ${random(80,200)}
+<br>
+
+<span>RED DOT:</span> ${random(70,190)}
+<br>
+
+<span>2X:</span> ${random(60,180)}
+<br>
+
+<span>AWM:</span> ${random(10,80)}
+<br>
+
+<span>DPI:</span> ${random(500,800)}
+
+`;
+
+}
+
+/* FREE FIRE */
+
+function abrirFF(){
+
+window.location.href = "freefire://";
+
+setTimeout(() => {
+
+alert("FREE FIRE NÃO INSTALADO");
+
+},2000);
+
+}
+
+</script>
+
+</body>
+</html>
