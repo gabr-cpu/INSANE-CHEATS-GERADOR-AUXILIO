@@ -383,48 +383,52 @@ INSANE <span>SENSI</span>
 
 <!-- GERADOR -->
 
-<div class="card">
+function gerar(){
 
-<h2>GERADOR DE SENSI</h2>
+let modelo =
+document.getElementById("modelo")
+.value
+.trim();
 
-<div class="label">
-DIGITE O MODELO DO CELULAR
-</div>
+if(modelo == ""){
 
-<input
-type="text"
-id="modelo"
-class="input"
-placeholder="Ex: Samsung A15"
-/>
+alert("Digite o modelo do celular");
 
-<button
-class="generate"
-onclick="gerar()">
+return;
 
-GERAR SENSI
+}
 
-</button>
+if(modelo.length < 3){
 
-<div class="resultado" id="resultado">
+alert("Modelo inválido");
 
-<span>GERAL:</span> -
+return;
+
+}
+
+document.getElementById("resultado")
+.innerHTML = `
+
+<span>GERAL:</span> ${random(80,200)}
 <br>
 
-<span>RED DOT:</span> -
+<span>RED DOT:</span> ${random(70,190)}
 <br>
 
-<span>2X:</span> -
+<span>2X:</span> ${random(60,180)}
 <br>
 
-<span>AWM:</span> -
+<span>AWM:</span> ${random(10,80)}
 <br>
 
-<span>DPI:</span> -
+<span>DPI:</span> ${random(500,800)}
+<br><br>
 
-</div>
+<span>DISPOSITIVO:</span> ${modelo}
 
-</div>
+`;
+
+}
 
 <!-- AUXILIO -->
 
