@@ -383,52 +383,48 @@ INSANE <span>SENSI</span>
 
 <!-- GERADOR -->
 
-function gerar(){
+<div class="card">
 
-let modelo =
-document.getElementById("modelo")
-.value
-.trim();
+<h2>GERADOR DE SENSI</h2>
 
-if(modelo == ""){
+<div class="label">
+DIGITE O MODELO DO CELULAR
+</div>
 
-alert("Digite o modelo do celular");
+<input
+type="text"
+id="modelo"
+class="input"
+placeholder="Ex: Samsung A15"
+/>
 
-return;
+<button
+class="generate"
+onclick="gerar()">
 
-}
+GERAR SENSI
 
-if(modelo.length < 3){
+</button>
 
-alert("Modelo inválido");
+<div class="resultado" id="resultado">
 
-return;
-
-}
-
-document.getElementById("resultado")
-.innerHTML = `
-
-<span>GERAL:</span> ${random(80,200)}
+<span>GERAL:</span> -
 <br>
 
-<span>RED DOT:</span> ${random(70,190)}
+<span>RED DOT:</span> -
 <br>
 
-<span>2X:</span> ${random(60,180)}
+<span>2X:</span> -
 <br>
 
-<span>AWM:</span> ${random(10,80)}
+<span>AWM:</span> -
 <br>
 
-<span>DPI:</span> ${random(500,800)}
-<br><br>
+<span>DPI:</span> -
 
-<span>DISPOSITIVO:</span> ${modelo}
+</div>
 
-`;
-
-}
+</div>
 
 <!-- AUXILIO -->
 
@@ -630,32 +626,47 @@ document.getElementById("modelo")
 .toLowerCase()
 .trim();
 
-let validos = [
+const marcas = [
 
-"samsung a15",
-"samsung s23",
-"samsung s24",
-"iphone 11",
-"iphone 12",
-"iphone 13",
-"iphone 14",
-"iphone 15",
-"redmi note 12",
-"redmi note 13",
-"moto g84",
-"poco x5",
-"poco x6"
+"samsung",
+"iphone",
+"xiaomi",
+"redmi",
+"poco",
+"motorola",
+"moto",
+"realme",
+"asus",
+"rog",
+"oneplus",
+"infinix",
+"tecno",
+"nokia",
+"lg",
+"huawei",
+"honor",
+"sony",
+"google",
+"pixel",
+"lenovo"
 
 ];
 
-if(!validos.includes(modelo)){
+let marcaValida =
+marcas.some(marca =>
+modelo.includes(marca)
+);
+
+let temNumero =
+/\d/.test(modelo);
+
+if(!marcaValida || !temNumero){
 
 alert("CELULAR NÃO COMPATÍVEL");
 
 return;
 
 }
-
 document.getElementById("resultado")
 .innerHTML = `
 
