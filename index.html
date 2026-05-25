@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>INSANE SENSI</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>INSANE PANEL</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -18,155 +18,291 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:Arial,sans-serif;
+scroll-behavior:smooth;
 }
 
 body{
-height:100vh;
-overflow:hidden;
-background:url('https://media.discordapp.net/attachments/1507929468348403712/1508189988326735942/file_00000000c8ac720ea8f704feed2457c0.png?ex=6a14a2e2&is=6a135162&hm=824e0a5afce120deac432a25e8c584bc7b9bd4e94a9a93dc181b302b180e3964&=&format=webp&quality=lossless&width=788&height=561') center/cover no-repeat;
-position:relative;
+background:
+radial-gradient(circle at top,
+#1a0000,
+#070707 40%);
 color:white;
-}
-
-body::before{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.65);
-backdrop-filter:blur(5px);
+height:100vh;
+display:flex;
+overflow:hidden;
 }
 
 /* LOGIN */
 
-#login{
-position:absolute;
+#loginScreen{
+position:fixed;
 width:100%;
 height:100%;
+background:rgba(0,0,0,.95);
 display:flex;
 justify-content:center;
 align-items:center;
-z-index:2;
-padding:20px;
-}
-
-.loginBox{
-width:430px;
-background:rgba(10,10,10,0.92);
-border:1px solid rgba(255,0,0,0.15);
-border-radius:30px;
-padding:35px;
+z-index:999;
 backdrop-filter:blur(10px);
-box-shadow:
-0 0 40px rgba(255,0,0,0.15),
-0 0 80px rgba(255,0,0,0.05);
 }
 
-.logo{
-font-size:68px;
+.login-box{
+width:430px;
+background:rgba(20,20,20,.9);
+padding:35px;
+border-radius:30px;
+border:1px solid rgba(255,255,255,.05);
+box-shadow:
+0 0 40px rgba(255,0,0,.15);
+backdrop-filter:blur(15px);
+}
+
+.login-logo{
+font-size:70px;
 font-weight:900;
 font-style:italic;
-text-align:center;
 color:#ff0000;
-text-shadow:0 0 18px red;
-letter-spacing:2px;
+text-align:center;
+text-shadow:
+0 0 15px red,
+0 0 40px rgba(255,0,0,.5);
 }
 
-.sub{
+.login-sub{
 text-align:center;
 color:#777;
 margin-top:5px;
-margin-bottom:35px;
-font-size:14px;
+margin-bottom:30px;
+letter-spacing:2px;
 }
 
-.input{
+.login-box input{
 width:100%;
 padding:18px;
-background:#121212;
+background:#111;
 border:none;
-outline:none;
 border-radius:18px;
+margin-bottom:15px;
 color:white;
 font-size:15px;
-margin-bottom:15px;
-transition:0.3s;
+outline:none;
+border:1px solid rgba(255,255,255,.04);
 }
 
-.input:focus{
-box-shadow:0 0 15px rgba(255,0,0,0.25);
+.login-box input:focus{
+border:1px solid rgba(255,0,0,.5);
 }
 
-.enter{
+.login-btn{
 width:100%;
 padding:18px;
 border:none;
 border-radius:18px;
-background:linear-gradient(45deg,#ff0000,#ff3b3b);
+background:linear-gradient(
+45deg,
+#ff0000,
+#ff3b3b
+);
 color:white;
 font-size:16px;
 font-weight:bold;
 cursor:pointer;
-transition:0.3s;
+transition:.3s;
+box-shadow:
+0 0 20px rgba(255,0,0,.25);
 }
 
-.enter:hover{
-transform:scale(1.02);
-box-shadow:0 0 20px rgba(255,0,0,0.25);
+.login-btn:hover{
+transform:translateY(-2px);
+box-shadow:
+0 0 30px rgba(255,0,0,.45);
 }
 
-/* PAINEL */
+/* SIDEBAR */
 
-#painel{
-display:none;
-position:absolute;
-width:100%;
-height:100%;
-z-index:2;
-overflow:auto;
-padding:35px;
+.sidebar{
+width:280px;
+background:rgba(10,10,10,.95);
+backdrop-filter:blur(15px);
+padding:25px;
+display:flex;
+flex-direction:column;
+border-right:
+1px solid rgba(255,255,255,.05);
 }
 
-.top{
-margin-bottom:30px;
-}
-
-.top h1{
-font-size:65px;
+.logo{
+font-size:60px;
 font-style:italic;
 font-weight:900;
+color:#ff0000;
+text-shadow:
+0 0 10px red,
+0 0 30px rgba(255,0,0,.4);
 }
 
-.top span{
+.sublogo{
+font-size:13px;
+color:#666;
+margin-top:5px;
+margin-bottom:40px;
+letter-spacing:2px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu button{
+background:#141414;
+border:none;
+padding:18px;
+border-radius:18px;
+color:white;
+font-size:15px;
+text-align:left;
+cursor:pointer;
+transition:.3s;
+border:1px solid rgba(255,255,255,.04);
+}
+
+.menu button:hover{
+background:#ff0000;
+transform:translateX(5px);
+box-shadow:
+0 0 20px rgba(255,0,0,.3);
+}
+
+.menu i{
+margin-right:10px;
+}
+
+.profile{
+margin-top:auto;
+background:#141414;
+padding:20px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,.04);
+}
+
+.profile h3{
+color:#ff4444;
+font-size:22px;
+}
+
+.profile p{
+margin-top:5px;
+color:#777;
+}
+
+/* CONTENT */
+
+.content{
+flex:1;
+padding:30px;
+overflow:auto;
+}
+
+.page{
+display:none;
+animation:fade .25s ease;
+}
+
+.page.active{
+display:block;
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(10px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.title{
+font-size:50px;
+font-style:italic;
+margin-bottom:25px;
+}
+
+.title span{
 color:#ff0000;
 }
 
-.grid{
+/* STATS */
+
+.stats{
 display:grid;
-grid-template-columns:1fr 420px;
-gap:25px;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.stat{
+background:rgba(18,18,18,.9);
+padding:25px;
+border-radius:25px;
+border:1px solid rgba(255,255,255,.05);
+box-shadow:
+0 0 25px rgba(255,0,0,.08);
+}
+
+.stat p{
+color:#777;
+font-size:14px;
+margin-bottom:10px;
+}
+
+.stat h2{
+font-size:40px;
+color:#ff2e2e;
 }
 
 /* CARD */
 
 .card{
-background:rgba(15,15,15,0.92);
-border-radius:30px;
-padding:30px;
-border:1px solid rgba(255,255,255,0.05);
+background:rgba(20,20,20,.8);
 backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,.05);
+padding:25px;
+border-radius:28px;
+margin-bottom:20px;
+box-shadow:
+0 0 30px rgba(255,0,0,.08);
 }
 
 .card h2{
-font-size:35px;
-margin-bottom:25px;
+font-size:30px;
 font-style:italic;
+margin-bottom:20px;
 }
 
-.label{
-font-size:13px;
-color:#777;
+.card label{
+display:block;
 margin-bottom:10px;
+color:#777;
+}
+
+.card select{
+width:100%;
+padding:16px;
+background:#0d0d0d;
+border:none;
+border-radius:15px;
+color:white;
+outline:none;
+margin-bottom:15px;
+border:1px solid rgba(255,255,255,.04);
 }
 
 .generate{
@@ -174,159 +310,122 @@ width:100%;
 padding:18px;
 border:none;
 border-radius:18px;
-background:linear-gradient(45deg,#ff0000,#ff3b3b);
+background:linear-gradient(
+45deg,
+#ff0000,
+#ff3b3b
+);
 color:white;
 font-size:16px;
 font-weight:bold;
 cursor:pointer;
-transition:0.3s;
-margin-top:5px;
+transition:.3s;
+box-shadow:
+0 0 20px rgba(255,0,0,.25);
 }
 
 .generate:hover{
-transform:scale(1.02);
+transform:translateY(-2px);
+box-shadow:
+0 0 30px rgba(255,0,0,.45);
 }
 
-.resultado{
+.lastkey{
 margin-top:25px;
-background:#101010;
-padding:25px;
+background:#0d0d0d;
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.04);
+}
+
+.lastkey p{
+color:#666;
+font-size:13px;
+}
+
+.lastkey h3{
+margin-top:10px;
+font-size:28px;
+color:#00ff88;
+}
+
+/* KEYS */
+
+.keylist{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.key{
+background:
+linear-gradient(
+145deg,
+#161616,
+#0d0d0d
+);
+padding:20px;
 border-radius:22px;
-line-height:42px;
-font-size:19px;
-border:1px solid rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,.04);
+transition:.3s;
 }
 
-.resultado span{
-color:#ff3333;
-font-weight:bold;
+.key:hover{
+transform:translateY(-3px);
+box-shadow:
+0 0 25px rgba(255,0,0,.12);
 }
 
-/* AUXILIO */
-
-.option{
-background:#151515;
-padding:18px;
-border-radius:20px;
+.keytop{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:15px;
-transition:0.3s;
 }
 
-.option:hover{
-transform:translateX(3px);
-background:#1b1b1b;
-}
-
-.option h4{
+.keycode{
 font-size:18px;
-margin-bottom:5px;
-}
-
-.option p{
-font-size:13px;
-color:#777;
-}
-
-/* SWITCH */
-
-.switch{
-position:relative;
-display:inline-block;
-width:55px;
-height:28px;
-}
-
-.switch input{
-opacity:0;
-width:0;
-height:0;
-}
-
-.slider{
-position:absolute;
-cursor:pointer;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:#333;
-transition:.4s;
-border-radius:34px;
-}
-
-.slider:before{
-position:absolute;
-content:"";
-height:20px;
-width:20px;
-left:4px;
-bottom:4px;
-background:white;
-transition:.4s;
-border-radius:50%;
-}
-
-input:checked + .slider{
-background:#ff0000;
-}
-
-input:checked + .slider:before{
-transform:translateX(26px);
-}
-
-/* BOTAO FF */
-
-.ff{
-width:100%;
-padding:18px;
-border:none;
-border-radius:18px;
-background:#00aa55;
-color:white;
-font-size:16px;
 font-weight:bold;
-cursor:pointer;
-margin-top:20px;
-transition:0.3s;
-}
-
-.ff:hover{
-transform:scale(1.02);
-}
-
-.status{
-margin-top:15px;
-padding:14px;
-border-radius:15px;
-background:#002f16;
 color:#00ff88;
+}
+
+.info{
+margin-top:10px;
+color:#777;
+font-size:14px;
+}
+
+.btns{
+display:flex;
+gap:10px;
+}
+
+.smallbtn{
+padding:10px 15px;
+border:none;
+border-radius:12px;
+font-size:12px;
 font-weight:bold;
-text-align:center;
+cursor:pointer;
+transition:.3s;
 }
 
-/* MOBILE */
-
-@media(max-width:950px){
-
-.grid{
-grid-template-columns:1fr;
+.pause{
+background:#3b2c00;
+color:#ffaa00;
 }
 
-.top h1{
-font-size:42px;
+.play{
+background:#003d1c;
+color:#00ff88;
 }
 
-.card{
-padding:20px;
+.delete{
+background:#220000;
+color:#ff4444;
 }
 
-.logo{
-font-size:50px;
-}
-
+.smallbtn:hover{
+transform:scale(1.05);
 }
 
 </style>
@@ -336,200 +435,176 @@ font-size:50px;
 
 <!-- LOGIN -->
 
-<div id="login">
+<div id="loginScreen">
 
-<div class="loginBox">
+<div class="login-box">
+
+<div class="login-logo">
+INSANE
+</div>
+
+<div class="login-sub">
+OWNER PANEL
+</div>
+
+<input
+type="text"
+id="user"
+placeholder="Usuário"
+/>
+
+<input
+type="password"
+id="pass"
+placeholder="Senha"
+/>
+
+<button
+class="login-btn"
+onclick="login()">
+ENTRAR
+</button>
+
+</div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div>
 
 <div class="logo">
 INSANE
 </div>
 
-<div class="sub">
-GERADOR PREMIUM
+<div class="sublogo">
+OWNER PANEL
 </div>
 
-<input
-type="text"
-id="keyInput"
-class="input"
-placeholder="Digite sua key"
-/>
+<div class="menu">
 
-<button
-class="enter"
-onclick="entrar()">
+<button onclick="mostrarPagina('dashboard')">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</button>
 
-ENTRAR
+<button onclick="mostrarPagina('gerar')">
+<i class="fa-solid fa-key"></i>
+Gerar Keys
+</button>
 
+<button onclick="mostrarPagina('keys')">
+<i class="fa-solid fa-list"></i>
+Todas Keys
 </button>
 
 </div>
 
 </div>
 
-<!-- PAINEL -->
+<div class="profile">
 
-<div id="painel">
+<h3>OWNER</h3>
 
-<div class="top">
-
-<h1>
-INSANE <span>SENSI</span>
-</h1>
+<p>Sistema Online</p>
 
 </div>
 
-<div class="grid">
+</div>
 
-<!-- GERADOR -->
+<!-- CONTENT -->
+
+<div class="content">
+
+<!-- DASHBOARD -->
+
+<div class="page active" id="dashboard">
+
+<div class="title">
+INSANE <span>DASHBOARD</span>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<p>TOTAL KEYS</p>
+<h2 id="totalKeys">0</h2>
+</div>
+
+<div class="stat">
+<p>KEYS ATIVAS</p>
+<h2 id="keysAtivas">0</h2>
+</div>
+
+<div class="stat">
+<p>KEYS PAUSADAS</p>
+<h2 id="keysPausadas">0</h2>
+</div>
+
+<div class="stat">
+<p>SISTEMA</p>
+<h2>ONLINE</h2>
+</div>
+
+</div>
+
+</div>
+
+<!-- GERAR -->
+
+<div class="page" id="gerar">
+
+<div class="title">
+GERAR <span>KEYS</span>
+</div>
 
 <div class="card">
 
-<h2>GERADOR DE SENSI</h2>
+<h2>NOVA KEY</h2>
 
-<div class="label">
-DIGITE O MODELO DO CELULAR
-</div>
+<label>Duração</label>
 
-<input
-type="text"
-id="modelo"
-class="input"
-placeholder="Ex: Samsung A15"
-/>
+<select id="dias">
+
+<option value="1">1 DIA</option>
+<option value="7">7 DIAS</option>
+<option value="15">15 DIAS</option>
+<option value="30">30 DIAS</option>
+<option value="999">LIFETIME</option>
+
+</select>
 
 <button
 class="generate"
-onclick="gerar()">
-
-GERAR SENSI
-
+onclick="gerarKey()">
+GERAR KEY
 </button>
 
-<div class="resultado" id="resultado">
+<div class="lastkey">
 
-<span>GERAL:</span> -
-<br>
+<p>ÚLTIMA KEY</p>
 
-<span>RED DOT:</span> -
-<br>
-
-<span>2X:</span> -
-<br>
-
-<span>AWM:</span> -
-<br>
-
-<span>DPI:</span> -
+<h3 id="ultimakey">
+INSANE-00000
+</h3>
 
 </div>
 
 </div>
 
-<!-- AUXILIO -->
-
-<div class="card">
-
-<h2>AUXÍLIO</h2>
-
-<div class="option">
-
-<div>
-
-<h4>AIM LOCK</h4>
-
-<p>Melhora precisão da mira</p>
-
 </div>
 
-<label class="switch">
-<input type="checkbox">
-<span class="slider"></span>
-</label>
+<!-- KEYS -->
 
+<div class="page" id="keys">
+
+<div class="title">
+TODAS <span>KEYS</span>
 </div>
 
-<div class="option">
-
-<div>
-
-<h4>DRAG HEAD</h4>
-
-<p>Arrasto otimizado</p>
-
-</div>
-
-<label class="switch">
-<input type="checkbox">
-<span class="slider"></span>
-</label>
-
-</div>
-
-<div class="option">
-
-<div>
-
-<h4>ESTABILIZADOR</h4>
-
-<p>Reduz tremida da mira</p>
-
-</div>
-
-<label class="switch">
-<input type="checkbox">
-<span class="slider"></span>
-</label>
-
-</div>
-
-<div class="option">
-
-<div>
-
-<h4>BOOST FPS</h4>
-
-<p>Melhora resposta do jogo</p>
-
-</div>
-
-<label class="switch">
-<input type="checkbox">
-<span class="slider"></span>
-</label>
-
-</div>
-
-<div class="option">
-
-<div>
-
-<h4>ULTRA CAPA</h4>
-
-<p>Resposta rápida no puxão</p>
-
-</div>
-
-<label class="switch">
-<input type="checkbox">
-<span class="slider"></span>
-</label>
-
-</div>
-
-<button
-class="ff"
-onclick="abrirFF()">
-
-ENTRAR NO FREE FIRE
-
-</button>
-
-<div class="status">
-SISTEMA ONLINE
-</div>
-
-</div>
+<div class="keylist" id="listaKeys"></div>
 
 </div>
 
@@ -551,154 +626,257 @@ SUPABASE_KEY
 
 /* LOGIN */
 
-async function entrar(){
+function login(){
 
-let key =
-document.getElementById("keyInput")
-.value
-.trim();
+let user =
+document.getElementById("user").value;
 
-if(key == ""){
+let pass =
+document.getElementById("pass").value;
 
-alert("Digite sua key");
+if(
+user == "insane" &&
+pass == "cheats"
+){
 
-return;
+document.getElementById("loginScreen")
+.style.display = "none";
+
+carregarDashboard();
+carregarKeys();
+
+}else{
+
+alert("Login inválido");
 
 }
+
+}
+
+/* MENU */
+
+function mostrarPagina(id){
+
+document
+.querySelectorAll(".page")
+.forEach(p => {
+
+p.classList.remove("active");
+
+});
+
+document
+.getElementById(id)
+.classList.add("active");
+
+if(id == "keys"){
+
+carregarKeys();
+
+}
+
+if(id == "dashboard"){
+
+carregarDashboard();
+
+}
+
+}
+
+/* GERAR KEY */
+
+async function gerarKey(){
+
+let dias =
+document.getElementById("dias").value;
+
+let numero =
+Math.floor(
+10000 + Math.random() * 90000
+);
+
+let key =
+"INSANE-" + numero;
+
+await supabaseClient
+.from("keys")
+.insert([
+{
+key:key,
+duracao:
+dias == 999
+? "LIFETIME"
+: dias + " DIAS",
+paused:false,
+deleted:false
+}
+]);
+
+document.getElementById("ultimakey")
+.innerHTML = key;
+
+carregarKeys();
+carregarDashboard();
+
+}
+
+/* DASHBOARD */
+
+async function carregarDashboard(){
+
+const { data } =
+await supabaseClient
+.from("keys")
+.select("*");
+
+if(!data) return;
+
+let total = 0;
+let pausadas = 0;
+let ativas = 0;
+
+data.forEach(k => {
+
+if(k.deleted) return;
+
+total++;
+
+if(k.paused){
+
+pausadas++;
+
+}else{
+
+ativas++;
+
+}
+
+});
+
+document.getElementById("totalKeys")
+.innerHTML = total;
+
+document.getElementById("keysAtivas")
+.innerHTML = ativas;
+
+document.getElementById("keysPausadas")
+.innerHTML = pausadas;
+
+}
+
+/* KEYS */
+
+async function carregarKeys(){
 
 const { data } =
 await supabaseClient
 .from("keys")
 .select("*")
-.eq("key", key);
+.order("id",{ascending:false});
 
-if(data.length == 0){
+const area =
+document.getElementById("listaKeys");
 
-alert("KEY INVÁLIDA");
+area.innerHTML = "";
 
-return;
+if(!data) return;
 
+data.forEach(item => {
+
+if(item.deleted) return;
+
+area.innerHTML += `
+
+<div class="key">
+
+<div class="keytop">
+
+<div>
+
+<div class="keycode">
+${item.key}
+</div>
+
+<div class="info">
+${item.duracao}
+</div>
+
+<div class="info">
+Status:
+${item.paused
+? 'PAUSADA'
+: 'ATIVA'}
+</div>
+
+</div>
+
+<div class="btns">
+
+<button
+class="smallbtn ${
+item.paused
+? 'play'
+: 'pause'
+}"
+onclick="togglePause('${item.key}', ${item.paused})">
+
+${
+item.paused
+? 'PLAY'
+: 'PAUSE'
 }
 
-let item = data[0];
+</button>
 
-if(item.deleted == true){
+<button
+class="smallbtn delete"
+onclick="deletar('${item.key}')">
 
-alert("KEY DELETADA");
+DELETE
 
-return;
+</button>
 
-}
+</div>
 
-if(item.paused == true){
+</div>
 
-alert("KEY PAUSADA");
-
-return;
-
-}
-
-document.getElementById("login")
-.style.display = "none";
-
-document.getElementById("painel")
-.style.display = "block";
-
-}
-
-/* RANDOM */
-
-function random(min,max){
-
-return Math.floor(
-Math.random() * (max - min + 1)
-) + min;
-
-}
-
-/* GERAR */
-
-function gerar(){
-
-let modelo =
-document.getElementById("modelo")
-.value
-.toLowerCase()
-.trim();
-
-const marcas = [
-
-"samsung",
-"iphone",
-"xiaomi",
-"redmi",
-"poco",
-"motorola",
-"moto",
-"realme",
-"asus",
-"rog",
-"oneplus",
-"infinix",
-"tecno",
-"nokia",
-"lg",
-"huawei",
-"honor",
-"sony",
-"google",
-"pixel",
-"lenovo"
-
-];
-
-let marcaValida =
-marcas.some(marca =>
-modelo.includes(marca)
-);
-
-let temNumero =
-/\d/.test(modelo);
-
-if(!marcaValida || !temNumero){
-
-alert("CELULAR NÃO COMPATÍVEL");
-
-return;
-
-}
-document.getElementById("resultado")
-.innerHTML = `
-
-<span>GERAL:</span> ${random(80,200)}
-<br>
-
-<span>RED DOT:</span> ${random(70,190)}
-<br>
-
-<span>2X:</span> ${random(60,180)}
-<br>
-
-<span>AWM:</span> ${random(10,80)}
-<br>
-
-<span>DPI:</span> ${random(500,800)}
+</div>
 
 `;
 
+});
+
 }
 
-/* FREE FIRE */
+/* PAUSAR */
 
-function abrirFF(){
+async function togglePause(key, paused){
 
-window.location.href = "freefire://";
+await supabaseClient
+.from("keys")
+.update({
+paused:!paused
+})
+.eq("key",key);
 
-setTimeout(() => {
+carregarKeys();
+carregarDashboard();
 
-alert("FREE FIRE NÃO INSTALADO");
+}
 
-},2000);
+/* DELETE */
+
+async function deletar(key){
+
+await supabaseClient
+.from("keys")
+.update({
+deleted:true
+})
+.eq("key",key);
+
+carregarKeys();
+carregarDashboard();
 
 }
 
